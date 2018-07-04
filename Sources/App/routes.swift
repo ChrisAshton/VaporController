@@ -9,12 +9,8 @@ public func routes(_ router: Router) throws {
     
     // MARK: GET routes
     // Diving into databases
-    router.get("users") { req -> Future<View> in
-        return User.query(on: req).all().flatMap {users in
-            let data = ["userlist": users]
-            return try req.view().render("userview", data)
-        }
-    }
+    let userController = UserController()
+    router.get("users", use: userController.list) // much shortened version
     
     // MARK: POST routes
     router.post("users") { req -> Future<Response> in
