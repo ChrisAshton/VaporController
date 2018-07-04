@@ -13,13 +13,7 @@ public func routes(_ router: Router) throws {
     router.get("users", use: userController.list) // much shortened version
     
     // MARK: POST routes
-    router.post("users") { req -> Future<Response> in
-        return try req.content.decode(User.self).flatMap { user in
-            return user.save(on: req).map { _ in
-                return req.redirect(to: "users")
-            }
-        }
-    }
+    router.post("users", use: userController.create)
 }
 
 // Important: Your class or struct conforms to Content

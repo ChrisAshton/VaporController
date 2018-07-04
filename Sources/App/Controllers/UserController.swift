@@ -8,4 +8,12 @@ final class UserController {
             return try req.view().render("userview", data)
         }
     }
+    
+    func create(_ req: Request) throws -> Future<Response> {
+        return try req.content.decode(User.self).flatMap { user in
+            return user.save(on: req).map {_ in
+                return req.redirect(to: "users")
+            }
+        }
+    }
 }
